@@ -124,9 +124,6 @@ static CGFloat const ATLMaxScrollDistanceFromBottom = 150;
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    if (self.displaysAddressBar) {
-        [self updateTopCollectionViewInset];
-    }
     [super viewDidAppear:animated];
     self.messageInputToolbar.translucent = YES;
 }
@@ -143,6 +140,11 @@ static CGFloat const ATLMaxScrollDistanceFromBottom = 150;
     
     if (self.isFirstAppearance) {
         self.firstAppearance = NO;
+        
+        if (self.displaysAddressBar) {
+            [self updateTopCollectionViewInset];
+        }
+        
         // We use the content size of the actual collection view when calculating the ammount to scroll. Hence, we layout the collection view before scrolling to the bottom.
         [self.view layoutIfNeeded];
         [self scrollToBottomAnimated:NO];
