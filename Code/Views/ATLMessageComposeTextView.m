@@ -65,23 +65,21 @@ static NSString *const ATLPlaceholderText = @"Enter Message";
 {
     [super layoutSubviews];
 
-    if (!self.placeholderLabel.isHidden) {
-        // Position the placeholder label over where entered text would be displayed.
-        CGRect placeholderFrame = self.placeholderLabel.frame;
-        CGFloat textViewHorizontalIndent = 5;
-        placeholderFrame.origin.x = self.textContainerInset.left + textViewHorizontalIndent;
-        placeholderFrame.origin.y = self.textContainerInset.top;
-        CGSize fittedPlaceholderSize = [self.placeholderLabel sizeThatFits:CGSizeMake(MAXFLOAT, MAXFLOAT)];
-        placeholderFrame.size = fittedPlaceholderSize;
-        CGFloat maxPlaceholderWidth = CGRectGetWidth(self.frame) - self.textContainerInset.left - self.textContainerInset.right - textViewHorizontalIndent * 2;
-        if (fittedPlaceholderSize.width > maxPlaceholderWidth) {
-            placeholderFrame.size.width = maxPlaceholderWidth;
-        }
-        self.placeholderLabel.frame = placeholderFrame;
-
-        // We want the placeholder to be overlapped by / underneath the cursor.
-        [self sendSubviewToBack:self.placeholderLabel];
+    // Position the placeholder label over where entered text would be displayed.
+    CGRect placeholderFrame = self.placeholderLabel.frame;
+    CGFloat textViewHorizontalIndent = 5;
+    placeholderFrame.origin.x = self.textContainerInset.left + textViewHorizontalIndent;
+    placeholderFrame.origin.y = self.textContainerInset.top;
+    CGSize fittedPlaceholderSize = [self.placeholderLabel sizeThatFits:CGSizeMake(MAXFLOAT, MAXFLOAT)];
+    placeholderFrame.size = fittedPlaceholderSize;
+    CGFloat maxPlaceholderWidth = CGRectGetWidth(self.frame) - self.textContainerInset.left - self.textContainerInset.right - textViewHorizontalIndent * 2;
+    if (fittedPlaceholderSize.width > maxPlaceholderWidth) {
+        placeholderFrame.size.width = maxPlaceholderWidth;
     }
+    self.placeholderLabel.frame = placeholderFrame;
+    
+    // We want the placeholder to be overlapped by / underneath the cursor.
+    [self sendSubviewToBack:self.placeholderLabel];
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
