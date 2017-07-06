@@ -27,7 +27,6 @@ NSString *const ATLAddressBarDelimiterPart = @"delimiter";
 
 @interface ATLAddressBarTextView ()
 
-@property (nonatomic) UILabel *toLabel;
 @property (nonatomic) CGFloat maxHeight;
 @property (nonatomic) NSLayoutConstraint *heightConstraint;
 
@@ -37,7 +36,7 @@ NSString *const ATLAddressBarDelimiterPart = @"delimiter";
 
 NSString *const ATLAddressBarTextViewAccesssibilityLabel = @"Address Bar Text View";
 CGFloat const ATLAddressBarTextViewIndent = 34.0f;
-CGFloat const ATLAddressBarTextContainerInset = 10.0f;
+CGFloat const ATLAddressBarTextContainerInset = 6.0f;
 static CGFloat const ATLLineSpacing = 6;
 
 - (id)init
@@ -67,7 +66,7 @@ static CGFloat const ATLLineSpacing = 6;
     
     self.accessibilityLabel = ATLAddressBarTextViewAccesssibilityLabel;
     self.backgroundColor = [UIColor clearColor];
-    self.textContainerInset = UIEdgeInsetsMake(ATLAddressBarTextContainerInset, 0, ATLAddressBarTextContainerInset, 0);
+    self.textContainerInset = UIEdgeInsetsMake(ATLAddressBarTextContainerInset + 1, 0, ATLAddressBarTextContainerInset, 30);
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.firstLineHeadIndent = ATLAddressBarTextViewIndent;
@@ -150,7 +149,7 @@ static CGFloat const ATLLineSpacing = 6;
 - (void)configureToLabelConstraints
 {
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.toLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:14]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.toLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:10]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.toLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:7]];
     // Adding the constraint below works around a crash on iOS 7.1. It will be overriden by the content size.
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.toLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
 }

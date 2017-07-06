@@ -30,6 +30,8 @@ extern CGFloat const ATLAddressBarTextContainerInset;
 
 @interface ATLAddressBarTextView : UITextView
 
+@property (nonatomic) UILabel *toLabel;
+
 @property (nonatomic, null_unspecified) UIFont *addressBarFont UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic) UIColor *addressBarTextColor UI_APPEARANCE_SELECTOR;
