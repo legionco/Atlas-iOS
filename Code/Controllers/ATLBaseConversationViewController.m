@@ -67,6 +67,18 @@ static CGFloat const ATLMaxScrollDistanceFromBottom = 150;
     _firstAppearance = YES;
 }
 
+- (void)setDisplaysAddressBar:(BOOL)displaysAddressBar {
+    _displaysAddressBar = displaysAddressBar;
+    if ([self isViewLoaded] && !displaysAddressBar && self.addressBarController.parentViewController != nil) {
+        // remove added address bar
+        [self.addressBarController willMoveToParentViewController:nil];
+        [self.addressBarController.view removeFromSuperview];
+        [self.addressBarController removeFromParentViewController];
+        self.addressBarController = nil;
+        [self updateTopCollectionViewInset];
+    }
+}
+
 - (void)loadView
 {
     self.view = [ATLConversationView new];
@@ -216,7 +228,7 @@ static CGFloat const ATLMaxScrollDistanceFromBottom = 150;
     UIEdgeInsets scrollIndicatorInsets = self.collectionView.scrollIndicatorInsets;
     CGRect frame = [self.view convertRect:self.addressBarController.addressBarView.frame fromView:self.addressBarController.addressBarView.superview];
     
-    contentInset.top = CGRectGetMaxY(frame);
+    contentInset.top = MAX(CGRectGetMaxY(frame), 0);
     scrollIndicatorInsets.top = contentInset.top;
     self.collectionView.contentInset = contentInset;
     self.collectionView.scrollIndicatorInsets = scrollIndicatorInsets;

@@ -41,6 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ATLConversationViewControllerDelegate <NSObject>
 
 @optional
+
+- (void)conversationViewController:(ATLConversationViewController *)viewController willSendMessage:(LYRMessage *)message;
+
 /**
  @abstract Informs the delegate that a user successfully sent an `LYRMessage` object.
  @param viewController The `ATLConversationViewController` in which the message was sent.
@@ -174,6 +177,10 @@ NS_ASSUME_NONNULL_BEGIN
  @raises `NSInvalidArgumentException` if an `LYRQuery` object is not returned.
  */
 - (LYRQuery *)conversationViewController:(ATLConversationViewController *)viewController willLoadWithQuery:(LYRQuery *)defaultQuery;
+
+- (NSSet<NSString*>*)conversationViewController:(ATLConversationViewController *)viewController addressBarParticipantsToIdentifiers:(NSOrderedSet <id<ATLParticipant>>*)addressBarParticipants;
+
+- (NSOrderedSet <id<ATLParticipant>>*)conversationViewController:(ATLConversationViewController *)viewController conversationToAddressBarParticipants:(NSOrderedSet <NSString*>*)conversationParticipantIdentifiers;
 
 @end
 
