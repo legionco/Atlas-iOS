@@ -317,7 +317,12 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     if ([participantIdentifiers containsObject:self.layerClient.authenticatedUser.userID]) {
         [participantIdentifiers removeObject:self.layerClient.authenticatedUser.userID];
     }
-    [self.addressBarController setSelectedParticipants:[self participantsForIdentifiers:participantIdentifiers]];
+    
+    NSOrderedSet *participants = [self participantsForIdentifiers:participantIdentifiers];
+    if ([self.dataSource respondsToSelector:@selector(conversationViewController:conversationToAddressBarParticipants:)]){
+        participants = [self.dataSource conversationViewController:self conversationToAddressBarParticipants:participants];
+    }
+    [self.addressBarController setSelectedParticipants:participants];
 }
 
 # pragma mark - UICollectionViewDataSource
@@ -969,8 +974,13 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 
 - (void)configureConversationForAddressBar
 {
-    NSSet *participants = self.addressBarController.selectedParticipants.set;
-    NSSet *participantIdentifiers = [participants valueForKey:@"userID"];
+    NSOrderedSet *addressBarParticipants = self.addressBarController.selectedParticipants;
+    NSSet *participantIdentifiers;
+    if ([self.dataSource respondsToSelector:@selector(conversationViewController:addressBarParticipantsToIdentifiers:)]){
+        participantIdentifiers = [self.dataSource conversationViewController:self addressBarParticipantsToIdentifiers:self.addressBarController.selectedParticipants];
+    } else {
+        participantIdentifiers = [addressBarParticipants.set valueForKey:@"userID"];
+    }
     
     if (!participantIdentifiers && !self.conversation.participants) return;
     
@@ -981,7 +991,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     }
     if ([participantIdentifiers isEqual:conversationParticipantsCopy]) return;
     
-    LYRConversation *conversation = [self conversationWithParticipants:participants];
+    LYRConversation *conversation = [self conversationWithParticipants:addressBarParticipants.set];
     self.conversation = conversation;
 }
 
@@ -991,26 +1001,42 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 {
     if (!self.addressBarController) return;
     
-    NSOrderedSet *existingParticipants = self.addressBarController.selectedParticipants;
-    NSOrderedSet *existingParticipantIdentifiers = [existingParticipants valueForKey:@"userID"];
+    NSSet *existingParticipantIdentifiers;
+    if ([self.dataSource respondsToSelector:@selector(conversationViewController:addressBarParticipantsToIdentifiers:)]){
+        existingParticipantIdentifiers = [self.dataSource conversationViewController:self addressBarParticipantsToIdentifiers:self.addressBarController.selectedParticipants];
+    } else {
+        NSOrderedSet *identifiers = [self.addressBarController.selectedParticipants valueForKey:@"userID"];
+        existingParticipantIdentifiers = identifiers.set;
+    }
+    
+    NSString *authenticatedUserID = self.layerClient.authenticatedUser.userID;
+    
+    NSMutableSet *conversationParticipantIds = [[self.conversation.participants valueForKey:@"userID"] mutableCopy];
+    if (authenticatedUserID) {
+        [conversationParticipantIds removeObject: authenticatedUserID];
+    }
     
     if (!existingParticipantIdentifiers && !self.conversation.participants) return;
-    if ([existingParticipantIdentifiers.set isEqual:[self.conversation.participants valueForKey:@"userID"]]) return;
+    if ([existingParticipantIdentifiers isEqual:conversationParticipantIds]) return;
     
-    NSMutableOrderedSet *removedIdentifiers = [NSMutableOrderedSet orderedSetWithOrderedSet:existingParticipantIdentifiers];
+    NSMutableOrderedSet *removedIdentifiers = [NSMutableOrderedSet orderedSetWithSet:existingParticipantIdentifiers];
     [removedIdentifiers minusSet:[self.conversation.participants valueForKey:@"userID"]];
     
     NSMutableOrderedSet *addedIdentifiers = [NSMutableOrderedSet orderedSetWithSet:[self.conversation.participants valueForKey:@"userID"]];
-    [addedIdentifiers minusOrderedSet:existingParticipantIdentifiers];
+    [addedIdentifiers minusSet:existingParticipantIdentifiers];
     
-    NSString *authenticatedUserID = self.layerClient.authenticatedUser.userID;
     if (authenticatedUserID) [addedIdentifiers removeObject:authenticatedUserID];
     
-    NSMutableOrderedSet *participantIdentifiers = [NSMutableOrderedSet orderedSetWithOrderedSet:existingParticipantIdentifiers];
+    NSMutableOrderedSet *participantIdentifiers = [NSMutableOrderedSet orderedSetWithSet:existingParticipantIdentifiers];
     [participantIdentifiers minusOrderedSet:removedIdentifiers];
     [participantIdentifiers unionOrderedSet:addedIdentifiers];
     
-    NSOrderedSet *participants = [self participantsForIdentifiers:participantIdentifiers];
+    NSOrderedSet *participants;
+    if ([self.dataSource respondsToSelector:@selector(conversationViewController:conversationToAddressBarParticipants:)]) {
+        participants = [self.dataSource conversationViewController:self conversationToAddressBarParticipants:participantIdentifiers];
+    } else {
+        participants = [self participantsForIdentifiers:participantIdentifiers];
+    }
     self.addressBarController.selectedParticipants = participants;
 }
 
