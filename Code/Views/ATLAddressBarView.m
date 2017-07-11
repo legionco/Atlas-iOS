@@ -32,7 +32,7 @@
 @implementation ATLAddressBarView
 
 CGFloat const ATLAddressBarTextViewPadding = 5;
-CGFloat const ATLAddContactButtonRightPadding = -12;
+CGFloat const ATLAddContactButtonRightPadding = -13;
 NSString *const ATLAddContactsButtonAccessibilityLabel = @"Add Contacts Button";
 
 - (id)init
@@ -96,6 +96,8 @@ NSString *const ATLAddContactsButtonAccessibilityLabel = @"Add Contacts Button";
     self.addContactsButtonTopConstraint = [NSLayoutConstraint constraintWithItem:_addContactsButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
     self.addContactsButtonTopConstraint.priority = UILayoutPriorityRequired;
     [self addConstraint:self.addContactsButtonTopConstraint];
+    [_addContactsButton addConstraint:[NSLayoutConstraint constraintWithItem:_addContactsButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:16]];
+    [_addContactsButton addConstraint:[NSLayoutConstraint constraintWithItem:_addContactsButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:16]];
 }
 
 - (void)configureBottomBorderConstraints
