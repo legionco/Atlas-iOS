@@ -36,7 +36,7 @@ NSString *const ATLAddressBarDelimiterPart = @"delimiter";
 
 NSString *const ATLAddressBarTextViewAccesssibilityLabel = @"Address Bar Text View";
 CGFloat const ATLAddressBarTextViewIndent = 34.0f;
-CGFloat const ATLAddressBarTextContainerInset = 6.0f;
+CGFloat const ATLAddressBarTextContainerInset = 4.0f;
 static CGFloat const ATLLineSpacing = 6;
 
 - (id)init
@@ -66,7 +66,7 @@ static CGFloat const ATLLineSpacing = 6;
     
     self.accessibilityLabel = ATLAddressBarTextViewAccesssibilityLabel;
     self.backgroundColor = [UIColor clearColor];
-    self.textContainerInset = UIEdgeInsetsMake(ATLAddressBarTextContainerInset + 1, 0, ATLAddressBarTextContainerInset, 30);
+    self.textContainerInset = UIEdgeInsetsMake(ATLAddressBarTextContainerInset + 3, 0, ATLAddressBarTextContainerInset-2, 30);
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.firstLineHeadIndent = ATLAddressBarTextViewIndent;
