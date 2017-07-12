@@ -1307,10 +1307,14 @@ static NSInteger const ATLPhotoActionSheet = 1000;
             [self.conversationDataSource updateMessages];
             for (ATLDataSourceChange *change in objectChanges) {
                 switch (change.type) {
-                    case LYRQueryControllerChangeTypeInsert:
-                        [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:change.newIndex]];
+                    case LYRQueryControllerChangeTypeInsert: {
+                        NSUInteger collectionCount = self.collectionView.numberOfSections;
+                        NSUInteger controllerCount =  queryController.count;
+                        if (collectionCount <= controllerCount) {
+                            [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:change.newIndex]];
+                        }
                         break;
-                        
+                    }
                     case LYRQueryControllerChangeTypeMove:
                         [self.collectionView moveSection:change.currentIndex toSection:change.newIndex];
                         break;
