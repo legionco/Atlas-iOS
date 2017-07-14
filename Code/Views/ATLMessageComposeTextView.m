@@ -37,8 +37,17 @@ static NSString *const ATLPlaceholderText = @"Enter Message";
     self = [super init];
     if (self) {
         
-        self.attributedText = [[NSAttributedString alloc] initWithString:@"" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:17],
-                                                                                         NSForegroundColorAttributeName : ATLGrayColor()}];
+        NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+        paragraphStyle.minimumLineHeight = 30;
+        paragraphStyle.maximumLineHeight = 30;
+        
+        NSDictionary *attributes = @{
+                                     NSFontAttributeName : [UIFont systemFontOfSize:17],
+                                     NSParagraphStyleAttributeName: paragraphStyle,
+                                     NSForegroundColorAttributeName : ATLGrayColor()
+                                     };
+        
+        self.attributedText = [[NSAttributedString alloc] initWithString:@"" attributes: attributes];
         self.textContainerInset = UIEdgeInsetsMake(8, 10, 8, 10);
         self.font = [UIFont systemFontOfSize:17];
         self.dataDetectorTypes = UIDataDetectorTypeLink;
