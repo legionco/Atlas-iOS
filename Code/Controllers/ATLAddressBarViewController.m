@@ -228,6 +228,8 @@ static NSString *const ATLAddressBarParticipantAttributeName = @"ATLAddressBarPa
     }
     if (participant) {
         [self selectParticipant:participant];
+    } else {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 
