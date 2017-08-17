@@ -222,7 +222,12 @@ static NSString *const ATLAddressBarParticipantAttributeName = @"ATLAddressBarPa
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     id<ATLParticipant> participant = self.participants[indexPath.row];
-    [self selectParticipant:participant];
+    if ([self.delegate respondsToSelector:@selector(addressBarViewController:willSelectParticipant:)]) {
+        participant = [self.delegate addressBarViewController:self willSelectParticipant:participant];
+    }
+    if (participant) {
+        [self selectParticipant:participant];
+    }
 }
 
 #pragma mark - Cell Configuration

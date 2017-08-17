@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)addressBarViewControllerDidBeginSearching:(ATLAddressBarViewController *)addressBarViewController;
 
+- (nullable id<ATLParticipant>)addressBarViewController:(ATLAddressBarViewController *)addressBarViewController willSelectParticipant:(id<ATLParticipant>)participant;
+
 /**
  @abstract Informs the delegate that the user made a participant selection.
  @param addressBarViewController The `ATLAddressBarViewController` in which the selection occurred.
