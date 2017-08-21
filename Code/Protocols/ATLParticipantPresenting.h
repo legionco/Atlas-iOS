@@ -27,6 +27,7 @@
 typedef NS_ENUM(NSUInteger, ATLParticipantPickerSortType) {
     ATLParticipantPickerSortTypeFirstName,
     ATLParticipantPickerSortTypeLastName,
+    ATLParticipantPickerSortTypeFirstNameDisplayName,
 };
 
 NS_ASSUME_NONNULL_BEGIN
