@@ -54,7 +54,7 @@ static NSString *ATLInitialForName(NSString *name)
 
 @property (nonatomic) NSMutableArray *participants;
 @property (nonatomic) ATLParticipantPickerSortType sortType;
-@property (nonatomic) NSSortDescriptor *sortDescriptor;
+@property (nonatomic) NSArray *sortDescriptors;
 @property (nonatomic) NSArray *sectionTitles;
 @property (nonatomic) NSArray *sections;
 @property (nonatomic) BOOL sectionsNeedUpdating;
@@ -76,11 +76,13 @@ static NSString *ATLInitialForName(NSString *name)
         _sortType = sortType;
         switch (self.sortType) {
             case ATLParticipantPickerSortTypeFirstName:
-                _sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES selector:@selector(localizedStandardCompare:)];
+                _sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES selector:@selector(localizedStandardCompare:)]];
                 break;
             case ATLParticipantPickerSortTypeLastName:
-                _sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES selector:@selector(localizedStandardCompare:)];
+                _sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES selector:@selector(localizedStandardCompare:)]];
                 break;
+            case ATLParticipantPickerSortTypeFirstNameDisplayName:
+                _sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES selector:@selector(localizedStandardCompare:)], [NSSortDescriptor sortDescriptorWithKey:@"displayName" ascending:YES selector:@selector(localizedStandardCompare:)]];
         }
         _sectionsNeedUpdating = YES;
     }
@@ -107,7 +109,7 @@ static NSString *ATLInitialForName(NSString *name)
 
 - (void)particpant:(id<ATLParticipant>)participant updatedProperty:(NSString *)property
 {
-    if ([self.participants containsObject:participant] && [self.sortDescriptor.key isEqualToString:property]) {
+    if ([self.participants containsObject:participant] && [[self.sortDescriptors valueForKey:@"key"] containsObject:property]) {
         self.sectionsNeedUpdating = YES;
     }
 }
@@ -169,7 +171,7 @@ static NSString *ATLInitialForName(NSString *name)
         return;
     }
 
-    NSArray *sortedParticipants = [self.participants sortedArrayUsingDescriptors:@[self.sortDescriptor]];
+    NSArray *sortedParticipants = [self.participants sortedArrayUsingDescriptors:self.sortDescriptors];
 
     NSMutableArray *sections = [NSMutableArray new];
     NSMutableArray *sectionTitles = [NSMutableArray new];
