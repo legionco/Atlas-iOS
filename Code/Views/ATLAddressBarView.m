@@ -24,7 +24,6 @@
 
 @property (nonatomic) UIView *bottomBorder;
 @property (nonatomic) NSLayoutConstraint *textViewRightConstraint;
-@property (nonatomic) NSLayoutConstraint *addContactsButtonTopConstraint;
 @property (nonatomic) CGFloat addContactsButtonTopConstant;
 
 @end
@@ -93,9 +92,9 @@ NSString *const ATLAddContactsButtonAccessibilityLabel = @"Add Contacts Button";
     NSLayoutConstraint *rightButtonConstraint = [NSLayoutConstraint constraintWithItem:_addContactsButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:ATLAddContactButtonRightPadding];
     rightButtonConstraint.priority = 800;
     [self addConstraint:rightButtonConstraint];
-    self.addContactsButtonTopConstraint = [NSLayoutConstraint constraintWithItem:_addContactsButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-    self.addContactsButtonTopConstraint.priority = UILayoutPriorityRequired;
-    [self addConstraint:self.addContactsButtonTopConstraint];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_addContactsButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_addressBarTextView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    
     [_addContactsButton addConstraint:[NSLayoutConstraint constraintWithItem:_addContactsButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:16]];
     [_addContactsButton addConstraint:[NSLayoutConstraint constraintWithItem:_addContactsButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:16]];
 }
@@ -108,14 +107,5 @@ NSString *const ATLAddContactsButtonAccessibilityLabel = @"Add Contacts Button";
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_bottomBorder attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
 }
 
-- (void)layoutSubviews
-{
-    if (!self.addContactsButtonTopConstant && self.frame.size.height) {
-        // We calculate top constant here to accomodate for variable font support.
-        self.addContactsButtonTopConstant = (self.frame.size.height / 2) - (self.addContactsButton.frame.size.height / 2);
-        self.addContactsButtonTopConstraint.constant = self.addContactsButtonTopConstant;
-    }
-    [super layoutSubviews];
-}
 
 @end
