@@ -1,5 +1,37 @@
 # Atlas Changelog
 
+## 1.1.3
+
+### Bug Fixes
+
+* Fixes an error when installing Atlas via Carthage.
+
+## 1.1.2
+
+### Bug Fixes
+
+* Fixes a crash in `ATLMediaInputStream` when sending an image from the camera roll on iOS 11. [IOS-3225]
+* Fixes an issue where the text input and accessory buttons in the `ATLMessageInputToolbar` would not respond to tap actions on iOS 11.
+
+## 1.1.1
+
+### Public API Changes
+
+* Added the `presenceStatusEnabled` property to the `ATLParticipantPresenting` protocol.
+* Added the `presenceStatusEnabled` property to the `ATLAddressBarViewController`.
+* Added the `shouldShowAvatarItem` and `presenceStatusEnabled` properties to the `ATLParticipantTableViewController`.
+
+### Enhancements
+
+* `ATLParticipantTableViewCell` will now show presence status based on the value of `presenceStatusEnabled` defined in the `ATLParticipantTableViewController`.
+* The address bar's search results will now show presence status based on the value of `presenceStatusEnabled` defined in `ATLAddressBarViewController`.
+
+### Bug Fixes
+
+* Fixes a bug where an empty gap would display instead of the date and time above a message.
+* Fixes a bug where re-creating a previously deleted conversation would cause the more-messages spinner to continously display without actually loading anything. [iOS-3013]
+* Fixes a bug where the queryController pagination window could be set to zero, causing a crash. [iOS-3074]
+
 ## 1.1.0
 
 Introducing the presence feature, which allows you to display a user's presence status as a color-coded icon next to their avatar image. [APPS-2740]
