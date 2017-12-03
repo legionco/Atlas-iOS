@@ -20,6 +20,8 @@
 
 #import "ATLBaseConversationViewController.h"
 #import "ATLConversationView.h"
+#import "UIView+ATLHelpers.h"
+#import "UICollectionView+ATLHelpers.h"
 
 static inline BOOL atl_systemVersionLessThan(NSString * _Nonnull systemVersion) {
     return [[[UIDevice currentDevice] systemVersion] compare:systemVersion options:NSNumericSearch] == NSOrderedAscending;
@@ -239,7 +241,7 @@ static CGFloat const ATLMaxScrollDistanceFromBottom = 150;
     [self.messageInputToolbar layoutIfNeeded];
     
     UIEdgeInsets insets = self.collectionView.contentInset;
-    CGFloat keyboardHeight = MAX(self.keyboardHeight, CGRectGetHeight(self.messageInputToolbar.frame));
+    CGFloat keyboardHeight = MAX(self.keyboardHeight, CGRectGetHeight(self.messageInputToolbar.frame)) - self.view.atl_safeAreaInsets.bottom;
     
     insets.bottom = keyboardHeight + self.typingIndicatorInset;
     self.collectionView.scrollIndicatorInsets = insets;
@@ -331,7 +333,7 @@ static CGFloat const ATLMaxScrollDistanceFromBottom = 150;
 {
     CGFloat contentSizeHeight = contentSize.height;
     CGFloat collectionViewFrameHeight = self.collectionView.frame.size.height;
-    CGFloat collectionViewBottomInset = self.collectionView.contentInset.bottom;
+    CGFloat collectionViewBottomInset = self.collectionView.atl_adjustedContentInset.bottom;
     CGFloat collectionViewTopInset = self.collectionView.contentInset.top;
     CGPoint offset = CGPointMake(0, MAX(-collectionViewTopInset, contentSizeHeight - (collectionViewFrameHeight - collectionViewBottomInset)));
     return offset;
