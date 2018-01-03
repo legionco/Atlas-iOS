@@ -1260,7 +1260,8 @@ static NSInteger const ATLPhotoActionSheet = 1000;
           forChangeType:(LYRQueryControllerChangeType)type
            newIndexPath:(NSIndexPath *)newIndexPath
 {
-    if (self.collectionView.window == nil) return;
+    // Workaround for https://github.com/layerhq/Atlas-iOS/issues/1448
+//    if (self.collectionView.window == nil) return;
     if (self.expandingPaginationWindow) return;
     
     NSInteger currentIndex = indexPath ? [self.conversationDataSource collectionViewSectionForQueryControllerRow:indexPath.row] : NSNotFound;
