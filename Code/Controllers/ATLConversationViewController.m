@@ -1280,6 +1280,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     [self.objectChanges removeAllObjects];
     
     if (self.collectionView.window == nil) {
+        [self.conversationDataSource updateMessages];
         [self.collectionView reloadData];
         [self.collectionView layoutIfNeeded];
         return;
