@@ -680,8 +680,29 @@ static NSInteger const ATLPhotoActionSheet = 1000;
         completePushText = [NSString stringWithFormat:@"%@: %@", senderName, pushText];
     }
     
-    LYRMessage *message = ATLMessageForParts(self.layerClient, parts, completePushText, ATLPushNotificationSoundName);
+    NSSet<NSString *> *pushRecipients = [self retrievePushRecipients];
+    LYRMessageOptions *messageOptions = [self createMessageOptionsFromRecipients:pushRecipients pushText:completePushText pushSound:ATLPushNotificationSoundName];
+    
+    LYRMessage *message = ATLMessageForPartsWithOptions(self.layerClient, parts, messageOptions);
     return message;
+}
+
+- (LYRMessageOptions *) createMessageOptionsFromRecipients:(NSSet<NSString *> *)recipients pushText:(NSString *)pushText pushSound:(NSString *)pushSound {
+    if ( !recipients || recipients.count == 0 ) { return nil; }
+    
+    LYRPushNotificationConfiguration *configuration = [LYRPushNotificationConfiguration new];
+    for (NSString *RecipientId in recipients) {
+        LYRPushNotificationConfiguration *userPushConfiguration = [LYRPushNotificationConfiguration new];
+        userPushConfiguration.alert = pushText;
+        userPushConfiguration.sound = pushSound;
+        userPushConfiguration.category = ATLUserNotificationDefaultActionsCategoryIdentifier;
+        
+        [configuration setPushConfiguration:userPushConfiguration forParticipant:RecipientId];
+    }
+    
+    LYRMessageOptions *messageOptions = [LYRMessageOptions new];
+    messageOptions.pushNotificationConfiguration = configuration;
+    return messageOptions;
 }
 
 - (void)sendMessage:(LYRMessage *)message
@@ -1131,6 +1152,13 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 }
 
 #pragma mark - Delegate
+
+- (NSSet *)retrievePushRecipients {
+    if ([self.delegate respondsToSelector:@selector(retrievePushRecipients)]) {
+        return [self.delegate retrievePushRecipients];
+    }
+    return nil;
+}
 
 - (void)notifyDelegateOfMessageSend:(LYRMessage *)message
 {
