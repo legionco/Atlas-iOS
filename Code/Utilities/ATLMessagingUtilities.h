@@ -106,6 +106,8 @@ LYRIdentity *__nullable ATLIdentityFromSet(NSString *userID, NSSet *participants
 
 LYRMessage *__nullable ATLMessageForParts(LYRClient *layerClient, NSSet <LYRMessagePart*> *messageParts, NSString *pushText, NSString *pushSound);
 
+LYRMessage *__nullable ATLMessageForPartsWithOptions(LYRClient *layerClient, NSArray *messageParts, LYRMessageOptions *messageOptions);
+
 //-----------------------------
 // @name Message Part Utilities
 //-----------------------------
