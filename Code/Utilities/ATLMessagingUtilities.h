@@ -108,6 +108,8 @@ LYRMessage *__nullable ATLMessageForParts(LYRClient *layerClient, NSSet <LYRMess
 
 LYRMessage *__nullable ATLMessageForPartsWithOptions(LYRClient *layerClient, NSArray *messageParts, LYRMessageOptions *messageOptions);
 
+LYRMessage *__nullable ATLMessageForPartsWithOptions(LYRClient *layerClient, NSArray *messageParts, LYRMessageOptions *messageOptions);
+
 //-----------------------------
 // @name Message Part Utilities
 //-----------------------------
