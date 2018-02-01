@@ -633,6 +633,8 @@ static NSInteger const ATLPhotoActionSheet = 1000;
         }
     }
     if (self.addressBarController) [self.addressBarController disable];
+    
+    [messageInputToolbar completeRightAccessoryButtonTapped];
 }
 
 - (void)messageInputToolbarDidType:(ATLMessageInputToolbar *)messageInputToolbar
