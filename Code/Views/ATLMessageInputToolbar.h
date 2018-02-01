@@ -76,6 +76,7 @@ extern NSString *const ATLMessageInputToolbarAccessibilityLabel;
 // Content Display Methods
 //------------------------------
 
+- (void)completeRightAccessoryButtonTapped;
 /**
  @abstract Inserts the mediaAttachment as an attributed text attachment which is inlined with text.
  @param mediaAttachment The `ATLMediaAttachment` instance containing information about the media.

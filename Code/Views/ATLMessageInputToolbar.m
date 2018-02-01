@@ -294,6 +294,10 @@ static CGFloat const ATLButtonHeight = 28.0f;
         [self.inputToolBarDelegate messageInputToolbarDidEndTyping:self];
     }
     [self.inputToolBarDelegate messageInputToolbar:self didTapRightAccessoryButton:self.rightAccessoryButton];
+    
+}
+
+- (void) completeRightAccessoryButtonTapped {
     self.textInputView.text = @"";
     [self setNeedsLayout];
     self.mediaAttachments = nil;
