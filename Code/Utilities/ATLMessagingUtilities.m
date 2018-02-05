@@ -206,6 +206,16 @@ LYRMessage *ATLMessageForParts(LYRClient *layerClient, NSArray *messageParts, NS
     return message;
 }
 
+LYRMessage *ATLMessageForPartsWithOptions(LYRClient *layerClient, NSArray *messageParts, LYRMessageOptions *messageOptions)
+{
+    NSError *error;
+    LYRMessage *message = [layerClient newMessageWithParts:messageParts options:messageOptions error:&error];
+    if (error) {
+        return nil;
+    }
+    return message;
+}
+
 #pragma mark - Message Parts Utilities
 
 NSArray *ATLMessagePartsWithMediaAttachment(ATLMediaAttachment *mediaAttachment)

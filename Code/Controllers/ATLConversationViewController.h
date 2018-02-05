@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
+- (NSSet *)retrievePushRecipients;
 - (void)conversationViewController:(ATLConversationViewController *)viewController willSendMessage:(LYRMessage *)message;
 
 /**
