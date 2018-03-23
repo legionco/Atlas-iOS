@@ -158,7 +158,7 @@ NSInteger const kATLSharedCellTag = 1000;
     
     __block UIImage *displayingImage;
     __block LYRMessagePart *previewImagePart = ATLMessagePartForMIMEType(self.message, ATLMIMETypeImageJPEGPreview);
-    if (!previewImagePart) {
+    if (!previewImagePart || previewImagePart.fileURL == nil) {
         previewImagePart = fullResImagePart;  // If no preview image part found, resort to the full-resolution image.
     }
     
