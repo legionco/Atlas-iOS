@@ -202,6 +202,9 @@ NSInteger const ATLQueryControllerPaginationWindow = 30;
 - (LYRMessage *)messageAtCollectionViewIndexPath:(NSIndexPath *)collectionViewIndexPath
 {
     NSIndexPath *queryControllerIndexPath = [self queryControllerIndexPathForCollectionViewIndexPath:collectionViewIndexPath];
+    if (queryControllerIndexPath.row >= self.messages.count) {
+        return nil;
+    }
     LYRMessage *message = [self.messages objectAtIndex:queryControllerIndexPath.row];
     return message;
 }
@@ -209,6 +212,9 @@ NSInteger const ATLQueryControllerPaginationWindow = 30;
 - (LYRMessage *)messageAtCollectionViewSection:(NSInteger)collectionViewSection
 {
     NSIndexPath *queryControllerIndexPath = [self queryControllerIndexPathForCollectionViewSection:collectionViewSection];
+    if (queryControllerIndexPath.row >= self.messages.count) {
+        return nil;
+    }
     LYRMessage *message = [self.messages objectAtIndex:queryControllerIndexPath.row];
     return message;
 }
