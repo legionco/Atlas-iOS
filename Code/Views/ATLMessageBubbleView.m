@@ -137,6 +137,7 @@ typedef NS_ENUM(NSInteger, ATLBubbleViewContentType) {
 
 - (void)prepareForReuse
 {
+    [self deleteActivityIndicator];
     self.bubbleImageView.image = nil;
     [self applyImageWidthConstraint:NO];
     self.playView.hidden = YES;
@@ -150,8 +151,19 @@ typedef NS_ENUM(NSInteger, ATLBubbleViewContentType) {
     [self setBubbleViewContentType:ATLBubbleViewContentTypeText];
 }
 
+- (void) deleteActivityIndicator {
+    for (UIView *subview in self.subviews) {
+        if ([subview isKindOfClass:[UIActivityIndicatorView class]]) {
+            ((UIActivityIndicatorView *)subview).stopAnimating;
+            [subview removeFromSuperview];
+        }
+    }
+}
+
 - (void)updateWithImage:(UIImage *)image width:(CGFloat)width
 {
+    if (!image){ return; }
+    [self deleteActivityIndicator];
     self.bubbleImageView.image = image;
     self.imageWidthConstraint.constant = width;
     [self applyImageWidthConstraint:YES];
