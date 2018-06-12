@@ -104,7 +104,11 @@ LYRIdentity *__nullable ATLIdentityFromSet(NSString *userID, NSSet *participants
 // @name Message Utilities
 //------------------------
 
-LYRMessage *__nullable ATLMessageForParts(LYRClient *layerClient, NSArray <LYRMessagePart*> *messageParts, NSString *pushText, NSString *pushSound);
+LYRMessage *__nullable ATLMessageForParts(LYRClient *layerClient, NSSet <LYRMessagePart*> *messageParts, NSString *pushText, NSString *pushSound);
+
+LYRMessage *__nullable ATLMessageForPartsWithOptions(LYRClient *layerClient, NSArray *messageParts, LYRMessageOptions *messageOptions);
+
+LYRMessage *__nullable ATLMessageForPartsWithOptions(LYRClient *layerClient, NSArray *messageParts, LYRMessageOptions *messageOptions);
 
 LYRMessage *__nullable ATLMessageForPartsWithOptions(LYRClient *layerClient, NSArray *messageParts, LYRMessageOptions *messageOptions);
 
@@ -112,7 +116,7 @@ LYRMessage *__nullable ATLMessageForPartsWithOptions(LYRClient *layerClient, NSA
 // @name Message Part Utilities
 //-----------------------------
 
-NSArray <LYRMessagePart*> *ATLMessagePartsWithMediaAttachment(ATLMediaAttachment *mediaAttachment);
+NSSet <LYRMessagePart*> *ATLMessagePartsWithMediaAttachment(ATLMediaAttachment *mediaAttachment);
 
 LYRMessagePart *__nullable ATLMessagePartForMIMEType(LYRMessage *message, NSString *MIMEType);
 
