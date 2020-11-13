@@ -149,7 +149,7 @@ GEM
     os (0.9.6)
     plist (3.4.0)
     public_suffix (2.0.5)
-    rake (10.5.0)
+    rake (12.3.3)
     representable (3.0.4)
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
@@ -202,7 +202,7 @@ DEPENDENCIES
   cocoapods (~> 1.5.2)
   fastlane
   highline (~> 1.7.8)
-  rake (~> 10.5.0)
+  rake (~> 12.3.3)
   xcpretty (~> 0.2.2)
 
 RUBY VERSION
